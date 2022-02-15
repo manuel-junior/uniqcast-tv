@@ -1,0 +1,4 @@
+enum AplicationError {
+  unexpected,
+  invalidCredentials,
+}
