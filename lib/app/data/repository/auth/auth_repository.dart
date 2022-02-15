@@ -26,13 +26,16 @@ class AuthRepository {
       return _httpInterceptor
           .request(method: 'post', url: fullURL, body: payload.toJson())
           .then((res) {
-        print(res);
-        return LoginResponse.fromJson(res!);
+        return LoginResponse.fromJson(res);
       });
     } on HttpError catch (error) {
-      throw error == HttpError.unauthorized
-          ? AplicationError.invalidCredentials
-          : AplicationError.unexpected;
+      if (error == HttpError.unauthorized || error == HttpError.forbidden) {
+        throw AplicationError.invalidCredentials;
+      } else if (error == HttpError.noConnection) {
+        throw AplicationError.unexpected;
+      } else {
+        throw AplicationError.unexpected;
+      }
     }
   }
 }

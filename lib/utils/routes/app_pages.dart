@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:uniq_cast_tv/app/bindings/initial_bindings.dart';
 
 import '../../app/controller/account/auth_controller.dart';
 
@@ -28,8 +29,8 @@ class AppRoutes {
     ),
     GetPage(
       name: Routes.home,
-      page: () => const MainScreen(),
-      //binding: MainScreenBindings(),
+      page: () => MainScreen(),
+      binding: InitialBinding(),
     ),
     GetPage(
       name: Routes.channelDetail,

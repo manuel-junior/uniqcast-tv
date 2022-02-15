@@ -26,6 +26,6 @@ class User {
         "username": username,
         "email": email,
         "lang": lang,
-        "idRef": idRef,
+        "id_ref": idRef,
       };
 }

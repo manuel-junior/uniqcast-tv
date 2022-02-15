@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,7 +13,7 @@ class HttpInterceptor {
 
   HttpInterceptor(this.client);
 
-  Future<Map?> request({
+  Future<dynamic> request({
     required String url,
     required String method,
     Map? body,
@@ -35,51 +36,66 @@ class HttpInterceptor {
 
     try {
       if (method == 'post') {
-        print("Aquii post");
-        print(jsonBody.toString());
-
         response = await client.post(
           Uri.parse(url),
           headers: headers,
           body: jsonEncode(jsonBody),
         );
       } else {
-        print("Aquii get");
-        response = await client.post(
+        //print("Aquii get");
+        //print(headers.toString());
+        response = await client.get(
           Uri.parse(url),
           headers: headers,
         );
       }
     } catch (error) {
-      print(error.toString());
-      throw HttpError.serverError;
+      if (error.toString().contains("Connection refused")) {
+        throw HttpError.serverError;
+      } else {
+        throw HttpError.noConnection;
+      }
     }
 
     return _handleResponse(response);
   }
 
-  Future<Map?> _handleResponse(http.Response response) async {
-    if (response.statusCode == 200) {
-      return response.body.isNotEmpty
-          ? jsonDecode(response.body)
-          : throw HttpError.notData;
-    } else if (response.statusCode == 204) {
+  Future<dynamic> _handleResponse(http.Response response) async {
+    int statusCode = response.statusCode;
+    print(statusCode);
+    print(response.body);
+    if (statusCode == 200) {
+      try {
+        // Throw no data error if body does not have a valid data format
+        Type? dataType = jsonDecode(response.body).runtimeType;
+        debugPrint(dataType.toString());
+        if (jsonDecode(response.body).isNotEmpty) {
+          return jsonDecode(response.body);
+        } else {
+          // Throw no data error if body is empty
+          throw HttpError.notData;
+        }
+      } catch (e) {
+        throw HttpError.notData;
+      }
+    } else if (statusCode == 204) {
       throw HttpError.notData;
-    } else if (response.statusCode == 400) {
+    } else if (statusCode == 400) {
       throw HttpError.badRequest;
     }
-    // if the requested URL returns 401, we logout the current user
-    else if (response.statusCode == 401) {
-      //throw HttpError.unauthorized;
-      await controller.logout();
-    } else if (response.statusCode == 403) {
-      print(response.body.toString());
+    // if the requested URL returns 401 and user is loggIn, we logout the current user
+    else if (statusCode == 401) {
+      if (controller.isLoggedIn) {
+        await controller.logout();
+      }
+      throw HttpError.unauthorized;
+    } else if (statusCode == 403) {
       throw HttpError.forbidden;
-    } else if (response.statusCode == 404) {
+    } else if (statusCode == 404) {
       throw HttpError.notFound;
     } else {
       throw HttpError.serverError;
     }
-    return null;
+    // return null;
   }
 }

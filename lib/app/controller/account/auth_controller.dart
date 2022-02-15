@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:uniq_cast_tv/app/data/models/auth/account/user.dart';
+import 'package:uniq_cast_tv/app/shared/widgets/error_dialog.dart';
 import 'package:uniq_cast_tv/utils/routes/app_routes.dart';
 
 import '../../data/models/auth/login/login_payload.dart';
 import '../../data/repository/auth/auth.dart';
+import '../../helpers/application/aplication.dart';
+import '../../helpers/http/http.dart';
 
 class AuthController extends GetxController {
   static AuthController to = Get.find();
@@ -17,6 +21,7 @@ class AuthController extends GetxController {
   AuthController(this._repository);
 
   final RxnString _token = RxnString(null);
+  final Rxn<User> userData = Rxn<User>(null);
 
   String get token => _token.value ?? '';
 
@@ -29,16 +34,21 @@ class AuthController extends GetxController {
     }
   }
 
-  bool get isLoggedIn => token.isNotEmpty;
-
-  assignTokenFromLocalStorage() async {
-    token = _box.read<String>('token');
+  set user(Map<String, dynamic>? data) {
+    if (data != null) {
+      userData.value = User.fromJson(data);
+      _box.write('user', data);
+    } else {
+      _box.remove('user');
+    }
   }
+
+  bool get isLoggedIn => token.isNotEmpty;
 
   @override
   void onInit() {
-    print("onInit");
-    assignTokenFromLocalStorage();
+    token = _box.read<String>('token');
+    user = _box.read<Map<String, dynamic>>('user');
     super.onInit();
   }
 
@@ -49,18 +59,29 @@ class AuthController extends GetxController {
         LoginPayload(userController.text, passwordController.text),
       );
       token = l.token;
+      userData.value = l.user;
+      user = l.user.toJson();
       userController.text = '';
       passwordController.text = '';
       Get.offAllNamed(Routes.home);
-    } catch (e) {
-      print(e.toString());
+    } catch (error) {
+      if (error == HttpError.unauthorized || error == HttpError.forbidden) {
+        await showError(AplicationError.invalidCredentials);
+      } else if (error == HttpError.noConnection) {
+        // throw AplicationError.unexpected;
+        await showError(AplicationError.connection);
+      } else {
+        await showError(AplicationError.unexpected);
+      }
     } finally {
       //hideLoadingIndicator();
+
     }
   }
 
   Future<void> logout() async {
     token = null;
-    Get.offAllNamed('/');
+    user = null;
+    Get.offAllNamed(Routes.login);
   }
 }
