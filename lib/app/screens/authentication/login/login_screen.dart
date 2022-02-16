@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../utils/constants.dart';
 import '../../../controller/account/auth_controller.dart';
 import '../../../shared/widgets/button/round_button.dart';
 
@@ -21,7 +22,7 @@ class LoginScreen extends StatelessWidget {
         }
       },
       child: Scaffold(
-        backgroundColor: const Color(0xff00354D),
+        backgroundColor: kPrimaryColor,
         body: ListView(
           padding: const EdgeInsets.all(0.0),
           children: [

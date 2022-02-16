@@ -22,15 +22,16 @@ class ChannelRepository {
     try {
       List res = await _httpInterceptor.request(method: 'get', url: fullURL);
 
-      return List.from(res.map((value) => Channel.fromJson(value)));
-    } on HttpError catch (error) {
-      if (error == HttpError.unauthorized) {
-        throw AplicationError.invalidCredentials;
-      } else if (error == HttpError.noConnection) {
-        throw AplicationError.unexpected;
-      } else {
-        throw AplicationError.unexpected;
+      List<Channel> validChannels = [];
+
+      for (var item in res.toList()) {
+        if (item['name'] != null && item['name'] != "null") {
+          validChannels.add(Channel.fromJson(item));
+        }
       }
+      return validChannels;
+    } on HttpError {
+      rethrow;
     }
   }
 
@@ -41,17 +42,10 @@ class ChannelRepository {
       return await _httpInterceptor
           .request(method: 'get', url: fullURL)
           .then((res) {
-        print(res);
         return Channel.fromJson(res!);
       });
-    } on HttpError catch (error) {
-      if (error == HttpError.unauthorized) {
-        throw AplicationError.invalidCredentials;
-      } else if (error == HttpError.noConnection) {
-        throw AplicationError.unexpected;
-      } else {
-        throw AplicationError.unexpected;
-      }
+    } on HttpError {
+      rethrow;
     }
   }
 }

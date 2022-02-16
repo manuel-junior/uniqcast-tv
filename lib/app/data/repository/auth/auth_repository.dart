@@ -28,14 +28,8 @@ class AuthRepository {
           .then((res) {
         return LoginResponse.fromJson(res);
       });
-    } on HttpError catch (error) {
-      if (error == HttpError.unauthorized || error == HttpError.forbidden) {
-        throw AplicationError.invalidCredentials;
-      } else if (error == HttpError.noConnection) {
-        throw AplicationError.unexpected;
-      } else {
-        throw AplicationError.unexpected;
-      }
+    } on HttpError {
+      rethrow;
     }
   }
 }

@@ -10,7 +10,7 @@ import '../data/repository/home/channel_repository.dart';
 const String baseURL = "http://devel.uniqcast.com:3001/";
 
 // Channel's logo URL
-const String logoURL = "https://devel/uniqcast.com/samples/logos/";
+const String logoURL = "https://devel.uniqcast.com/samples/logos/";
 
 // Base URL Endpoints
 const String _loginPath = "auth/local";

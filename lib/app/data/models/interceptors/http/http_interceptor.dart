@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -62,13 +61,12 @@ class HttpInterceptor {
 
   Future<dynamic> _handleResponse(http.Response response) async {
     int statusCode = response.statusCode;
-    print(statusCode);
-    print(response.body);
+
     if (statusCode == 200) {
       try {
         // Throw no data error if body does not have a valid data format
         Type? dataType = jsonDecode(response.body).runtimeType;
-        debugPrint(dataType.toString());
+        //debugPrint(dataType.toString());
         if (jsonDecode(response.body).isNotEmpty) {
           return jsonDecode(response.body);
         } else {

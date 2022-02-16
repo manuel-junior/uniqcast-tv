@@ -23,6 +23,7 @@ class AppRoutes {
     GetPage(
       name: Routes.login,
       page: () => LoginScreen(),
+      transition: Transition.fadeIn,
       middlewares: [
         AuthGuard(),
       ],
@@ -31,10 +32,12 @@ class AppRoutes {
       name: Routes.home,
       page: () => MainScreen(),
       binding: InitialBinding(),
+      transition: Transition.fadeIn,
     ),
     GetPage(
       name: Routes.channelDetail,
       page: () => const ChannelDetailScreen(),
+      transition: Transition.fadeIn,
     ),
   ];
 }

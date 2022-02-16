@@ -54,7 +54,6 @@ class AuthController extends GetxController {
 
   Future<void> login() async {
     try {
-      //showLoadingIndicator();
       var l = await _repository.login(
         LoginPayload(userController.text, passwordController.text),
       );
@@ -68,15 +67,11 @@ class AuthController extends GetxController {
       if (error == HttpError.unauthorized || error == HttpError.forbidden) {
         await showError(AplicationError.invalidCredentials);
       } else if (error == HttpError.noConnection) {
-        // throw AplicationError.unexpected;
         await showError(AplicationError.connection);
       } else {
         await showError(AplicationError.unexpected);
       }
-    } finally {
-      //hideLoadingIndicator();
-
-    }
+    } finally {}
   }
 
   Future<void> logout() async {

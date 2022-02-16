@@ -38,7 +38,6 @@ class ChannelController extends GetxController {
       if (error == HttpError.unauthorized || error == HttpError.forbidden) {
         await showError(AplicationError.invalidCredentials);
       } else if (error == HttpError.noConnection) {
-        // throw AplicationError.unexpected;
         await showError(AplicationError.connection);
       } else {
         await showError(AplicationError.unexpected);
@@ -48,11 +47,15 @@ class ChannelController extends GetxController {
 
   Future<void> getChannelData(int id) async {
     try {
-      //showLoadingIndicator();
       channel.value = await _repository.getChannelData(id);
-      //hideLoadingIndicator();
-    } catch (e) {
-      //hideLoadingIndicator();
+    } catch (error) {
+      if (error == HttpError.unauthorized || error == HttpError.forbidden) {
+        await showError(AplicationError.invalidCredentials);
+      } else if (error == HttpError.noConnection) {
+        await showError(AplicationError.connection);
+      } else {
+        await showError(AplicationError.unexpected);
+      }
     }
   }
 }
