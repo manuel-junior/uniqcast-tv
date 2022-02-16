@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../../../utils/constants.dart';
 import '../../controller/controller.dart';
 import '../../data/models/home/channel_model.dart';
+import '../../shared/widgets/widgets.dart';
 
 class ChannelDetailScreen extends StatefulWidget {
   final Channel? channel;
@@ -45,10 +46,15 @@ class _ChannelDetailScreenState extends State<ChannelDetailScreen> {
 
   @override
   void dispose() {
-    if (_betterPlayerController.isPlaying() == true) {
-      _betterPlayerController.pause();
+    _betterPlayerController.removeEventsListener((p0) => null);
+
+    Future.delayed(Duration.zero, () {
+      if (_betterPlayerController.isPlaying() == true) {
+        _betterPlayerController.pause();
+      }
       _betterPlayerController.clearCache();
-    }
+    });
+
     _betterPlayerController.dispose();
     super.dispose();
   }
@@ -61,41 +67,17 @@ class _ChannelDetailScreenState extends State<ChannelDetailScreen> {
         backgroundColor: kPrimaryColor,
         title: Row(
           children: [
-            Hero(
-              tag: widget.channel!.name! + widget.channel!.lang,
-              child: Container(
-                height: 40,
-                width: 40,
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 216, 216, 216),
-                  borderRadius: BorderRadius.circular(8.0),
-                  image: DecorationImage(
-                    image: NetworkImage(
-                      widget.channel!.getLogoURL(),
-                    ),
-                  ),
-                ),
-              ),
+            ChannelIconCard(
+              height: 40,
+              width: 40,
+              channel: widget.channel!,
             ),
             const SizedBox(
               width: 10.0,
             ),
-            Hero(
-              tag: widget.channel!.name! +
-                  widget.channel!.lang +
-                  widget.channel!.template,
-              transitionOnUserGestures: true,
-              child: Material(
-                type: MaterialType.transparency, // likely needed
-                child: Text(
-                  widget.channel!.name!,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
+            ChannelHeroText(
+              channel: widget.channel!,
+              fontSize: 16,
             ),
           ],
         ),

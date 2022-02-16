@@ -42,4 +42,12 @@ class Channel {
   getLogoURL() {
     return logoURL + "$id.png";
   }
+
+  getTag() {
+    return name! + "$id";
+  }
+
+  getTag2() {
+    return name! + lang + "$id";
+  }
 }

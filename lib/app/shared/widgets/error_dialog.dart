@@ -40,7 +40,7 @@ showError(AplicationError error) {
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: Colors.grey[50],
       borderRadius: 15,
-      maxWidth: Get.width,
+      maxWidth: 400,
       margin: const EdgeInsets.all(40),
       colorText: textColor,
       duration: const Duration(seconds: 6),
