@@ -121,8 +121,8 @@ class MainScreen extends StatelessWidget {
       child: Row(
         children: [
           ChannelIconCard(
-            height: 80,
-            width: 80,
+            height: 70,
+            width: 70,
             channel: currentChannel,
           ),
           const SizedBox(

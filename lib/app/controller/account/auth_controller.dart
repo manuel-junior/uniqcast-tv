@@ -52,7 +52,7 @@ class AuthController extends GetxController {
     super.onInit();
   }
 
-  Future<void> login() async {
+  Future<bool> login() async {
     try {
       var l = await _repository.login(
         LoginPayload(userController.text, passwordController.text),
@@ -63,6 +63,7 @@ class AuthController extends GetxController {
       userController.text = '';
       passwordController.text = '';
       Get.offAllNamed(Routes.home);
+      return true;
     } catch (error) {
       if (error == HttpError.unauthorized || error == HttpError.forbidden) {
         await showError(AplicationError.invalidCredentials);
@@ -71,6 +72,7 @@ class AuthController extends GetxController {
       } else {
         await showError(AplicationError.unexpected);
       }
+      return false;
     } finally {}
   }
 

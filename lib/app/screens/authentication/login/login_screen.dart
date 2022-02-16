@@ -3,13 +3,17 @@ import 'package:get/get.dart';
 
 import '../../../../utils/constants.dart';
 import '../../../controller/account/auth_controller.dart';
-import '../../../shared/widgets/button/round_button.dart';
+import '../../../shared/widgets/widgets.dart';
+
+import 'widgets/log_in_button.dart';
 
 class LoginScreen extends StatelessWidget {
   final AuthController authController = AuthController.to;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   LoginScreen({Key? key}) : super(key: key);
+
+  final RxBool isLoading = false.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -51,102 +55,50 @@ class LoginScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
+            const SizedBox(
+              height: 2.5,
+            ),
             Text(
               "Unique tv experience".toUpperCase(),
               textAlign: TextAlign.center,
               style: const TextStyle(
-                color: Colors.white,
-                fontSize: 14.5,
+                color: Colors.white70,
+                fontSize: 13.5,
                 fontWeight: FontWeight.w500,
               ),
             ),
             const SizedBox(
               height: 80.0,
             ),
-            Padding(
+            Container(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Form(
                 key: _formKey,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    TextFormField(
-                      controller: authController.userController,
-                      decoration: const InputDecoration(
-                        hintText: 'Username',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        contentPadding: EdgeInsets.only(
-                          left: 15,
-                          bottom: 19,
-                          top: 11,
-                          right: 15,
-                        ),
-                      ),
-                      keyboardType: TextInputType.emailAddress,
-                      textInputAction: TextInputAction.next,
-                      validator: (v) {
-                        if (v == null || v.isEmpty) {
-                          return 'Username is required';
-                        }
-                        return null;
-                      },
-                      onSaved: (v) => authController.userController.text = v!,
+                    CustomTxtInput(
+                      inputController: authController.userController,
+                      formKey: _formKey,
+                      hintText: 'Username',
+                      inputType: InputType.email,
                     ),
                     const SizedBox(
                       height: 20.0,
                     ),
-                    TextFormField(
-                      controller: authController.passwordController,
-                      decoration: const InputDecoration(
-                        hintText: 'Password',
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        ),
-                        contentPadding: EdgeInsets.only(
-                          left: 15,
-                          bottom: 11,
-                          top: 11,
-                          right: 15,
-                        ),
-                      ),
-                      validator: (v) {
-                        if (v == null || v.isEmpty) {
-                          return 'Password is required';
-                        }
-                        return null;
-                      },
-                      onSaved: (v) =>
-                          authController.passwordController.text = v!,
+                    CustomTxtInput(
+                      inputController: authController.passwordController,
+                      formKey: _formKey,
+                      hintText: 'Password',
+                      inputType: InputType.password,
                     ),
                     const SizedBox(
                       height: 40.0,
                     ),
-                    Center(
-                      child: SizedBox(
-                        width: Get.width,
-                        child: RoundedButton(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 13,
-                          ),
-                          fontSize: 18,
-                          onTap: () {
-                            if (_formKey.currentState!.validate()) {
-                              FocusScope.of(context).unfocus();
-                              authController.login();
-                            }
-                          },
-                          text: "Sign In",
-                          color: const Color(0xff036EA0),
-                          backgroundColor: Colors.white,
-                        ),
-                      ),
+                    LogInButton(
+                      formKey: _formKey,
+                      isLoading: isLoading,
+                      authController: authController,
                     ),
                     const SizedBox(
                       height: 16.0,

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../helpers/application/aplication.dart';
 
 showError(AplicationError error) {
+  bool isDismissible = true;
   String? title;
   String? subTitle;
 
@@ -26,6 +27,7 @@ showError(AplicationError error) {
     subTitle = "It seems your internet is slow or not working!";
     icon = const Icon(Icons.network_wifi, color: Colors.red);
     textColor = appErrorTextColor;
+    isDismissible = false;
   } else {
     icon = appErrorIcon;
     textColor = appErrorTextColor;
@@ -44,7 +46,7 @@ showError(AplicationError error) {
       margin: const EdgeInsets.all(40),
       colorText: textColor,
       duration: const Duration(seconds: 6),
-      isDismissible: false,
+      isDismissible: isDismissible,
       dismissDirection: DismissDirection.horizontal,
       forwardAnimationCurve: Curves.easeOutBack,
     );
