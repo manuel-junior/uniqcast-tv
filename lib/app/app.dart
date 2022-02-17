@@ -15,8 +15,8 @@ class App extends StatelessWidget {
     return OrientationBuilder(
       builder: (context, orientation) {
         return GetMaterialApp(
-          title: 'Uniq Cast Tv',
-          debugShowCheckedModeBanner: true,
+          title: 'Uniqcast Tv',
+          debugShowCheckedModeBanner: false,
           initialBinding: InitialBinding(),
           initialRoute: Routes.login,
           theme: ThemeData(

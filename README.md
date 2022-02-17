@@ -12,7 +12,6 @@ Uniqcast TV is a simple video streaming application.
 1. Login
 ![Alt text](https://sample/url/name-of-gif-file.gif)
 
-
 2. Channels list
 ![Alt text](https://sample/url/name-of-gif-file.gif)
 
