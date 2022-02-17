@@ -12,6 +12,7 @@ Uniqcast TV is a simple video streaming application.
 1. Login
 ![Alt text](https://github.com/manuel-junior/uniqcast-tv/blob/5d27c00bd31e1c1b0dddcdf32822a9905801360d/screenshots/Simulator%20Screen%20Shot%20-%20iPhone%2013%20Pro%20-%202022-02-17%20at%2000.44.35.png?raw=true)
 
+
 2. Channels list
 ![Alt text](https://github.com/manuel-junior/uniqcast-tv/blob/main/screenshots/Simulator%20Screen%20Shot%20-%20iPhone%2013%20Pro%20-%202022-02-17%20at%2000.44.58.png?raw=true)
 
