@@ -43,18 +43,18 @@ class ChannelController extends GetxController {
 
     if (hasChannel != null) {
       _box.remove(channel.name!);
-      bookMarkedchannels.add(channel);
+      _updateChannelFromList(channel);
     } else {
       _box.write(channel.name!, channel.toJson());
-      _deleteChannelFromList(channel);
+      _updateChannelFromList(channel);
     }
   }
 
   /* 
-  this funtion is used to delete bookMarkedchannel from bookMarkedchannels list
+  this funtion is used to delete bookMarkedchannel from  bookMarkedchannels
   when bookMarkChannel() is call
  */
-  _deleteChannelFromList(Channel channel) {
+  _updateChannelFromList(Channel channel) {
     bool canDelete = false;
 
     for (var item in bookMarkedchannels) {
@@ -66,6 +66,8 @@ class ChannelController extends GetxController {
     if (canDelete) {
       int index = bookMarkedchannels.indexOf(channel);
       bookMarkedchannels.removeAt(index);
+    } else {
+      bookMarkedchannels.add(channel);
     }
     bookMarkedchannels.refresh();
   }

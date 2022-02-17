@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
 
 import '../../../bindings/initial_bindings.dart';
@@ -47,10 +48,10 @@ class Channel {
   }
 
   getTag() {
-    return name! + "$id";
+    return name! + "$id" + UniqueKey().toString();
   }
 
   getTag2() {
-    return name! + lang + "$id";
+    return name! + lang + "$id" + UniqueKey().toString();
   }
 }
