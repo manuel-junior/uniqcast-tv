@@ -1,3 +1,5 @@
+import 'package:get/state_manager.dart';
+
 import '../../../bindings/initial_bindings.dart';
 
 class Channel {
@@ -18,6 +20,7 @@ class Channel {
   int id;
   DateTime createdAt;
   DateTime updatedAt;
+  final RxBool isBookMarked = RxBool(false);
 
   factory Channel.fromJson(Map<dynamic, dynamic> json) => Channel(
         name: json["name"],

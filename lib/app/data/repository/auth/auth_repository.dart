@@ -1,6 +1,5 @@
 import 'package:http/http.dart';
 
-import '../../../helpers/application/aplication.dart';
 import '../../../helpers/http/http.dart';
 
 import '../../models/auth/login/login_payload.dart';

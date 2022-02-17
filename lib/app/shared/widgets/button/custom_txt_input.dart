@@ -45,6 +45,7 @@ class CustomTxtInput extends StatelessWidget {
         keyboardType: inputType == InputType.email
             ? TextInputType.emailAddress
             : TextInputType.visiblePassword,
+        obscureText: inputType == InputType.email ? false : true,
         textInputAction: TextInputAction.next,
         onChanged: (String? value) {
           _formKey.currentState!.validate();

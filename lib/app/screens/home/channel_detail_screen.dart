@@ -22,7 +22,11 @@ class _ChannelDetailScreenState extends State<ChannelDetailScreen> {
 
   @override
   void initState() {
+    widget.channel!.isBookMarked.value =
+        controller.isBookMarked(widget.channel!);
+
     controller.getChannelData(widget.channel!.id);
+
     BetterPlayerControlsConfiguration controlsConfiguration =
         const BetterPlayerControlsConfiguration(
       playIcon: Icons.play_arrow,
@@ -67,7 +71,7 @@ class _ChannelDetailScreenState extends State<ChannelDetailScreen> {
         backgroundColor: kPrimaryColor,
         title: Row(
           children: [
-            ChannelIconCard(
+            ChannelLogoCard(
               height: 40,
               width: 40,
               channel: widget.channel!,
@@ -101,6 +105,32 @@ class _ChannelDetailScreenState extends State<ChannelDetailScreen> {
             ),
           ),
         ),
+        actions: [
+          Container(
+            width: 40,
+            margin: const EdgeInsets.only(right: 20.0, top: 8, bottom: 8),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            ),
+            child: IconButton(
+              color: kPrimaryColor,
+              onPressed: () {
+                widget.channel!.isBookMarked.value =
+                    !widget.channel!.isBookMarked.value;
+
+                controller.bookMarkChannel(widget.channel!);
+              },
+              icon: Obx(
+                () => Icon(
+                  widget.channel!.isBookMarked.isTrue
+                      ? Icons.bookmark
+                      : Icons.bookmark_outline,
+                ),
+              ),
+            ),
+          )
+        ],
       ),
       body: Column(
         children: [

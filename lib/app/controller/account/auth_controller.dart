@@ -13,6 +13,7 @@ import '../../helpers/http/http.dart';
 class AuthController extends GetxController {
   static AuthController to = Get.find();
   static final _box = GetStorage('AppStore');
+
   final AuthRepository _repository;
 
   TextEditingController userController = TextEditingController();
@@ -79,6 +80,7 @@ class AuthController extends GetxController {
   Future<void> logout() async {
     token = null;
     user = null;
+
     Get.offAllNamed(Routes.login);
   }
 }

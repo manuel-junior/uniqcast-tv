@@ -41,7 +41,6 @@ class HttpInterceptor {
           body: jsonEncode(jsonBody),
         );
       } else {
-        //print("Aquii get");
         //print(headers.toString());
         response = await client.get(
           Uri.parse(url),
@@ -65,6 +64,7 @@ class HttpInterceptor {
     if (statusCode == 200) {
       try {
         // Throw no data error if body does not have a valid data format
+        // ignore: unused_local_variable
         Type? dataType = jsonDecode(response.body).runtimeType;
         //debugPrint(dataType.toString());
         if (jsonDecode(response.body).isNotEmpty) {

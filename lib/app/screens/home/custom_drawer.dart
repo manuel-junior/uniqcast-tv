@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:uniq_cast_tv/app/controller/controller.dart';
+import 'package:uniq_cast_tv/utils/routes/app_routes.dart';
 
 import '../../../utils/constants.dart';
 
 class CustomDrawer extends StatelessWidget {
-  final AuthController controller;
-  const CustomDrawer({Key? key, required this.controller}) : super(key: key);
+  final AuthController authController;
+  final ChannelController channelController;
+  const CustomDrawer(
+      {Key? key, required this.authController, required this.channelController})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +36,7 @@ class CustomDrawer extends StatelessWidget {
                   height: 20,
                 ),
                 Text(
-                  "${controller.userData.value?.username.toUpperCase()}",
+                  "${authController.userData.value?.username.toUpperCase()}",
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     color: Colors.white,
@@ -44,14 +48,20 @@ class CustomDrawer extends StatelessWidget {
             ),
           ),
           drawerTile(
-            text: 'Bookmarked channels',
+            text: 'Bookmarked channel',
             icon: Icons.bookmark,
-            onTap: () => controller.logout(),
+            onTap: () => Navigator.popAndPushNamed(context, Routes.bookMarked),
+          ),
+          const SizedBox(
+            height: 10,
           ),
           drawerTile(
             text: 'Log Out',
             icon: Icons.logout_rounded,
-            onTap: () => controller.logout(),
+            onTap: () async {
+              channelController.clearSavedChannels();
+              await authController.logout();
+            },
           ),
         ],
       ),
